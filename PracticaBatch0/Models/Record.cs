@@ -17,7 +17,19 @@ namespace PracticaBatch0.Models
             this.Temperature = temperature;
             this.Humidity = humidity;
             this.SensorStatus = sensorStatus;
+
+            if (!(this.isValid()))
+                Console.WriteLine("Invalid Record.");
+        }
+
+        private bool isValid()
+        {
+            if (Date.Year < 1900)           //Ejemplos de validaciones en el modelo (no lo dice el enunciado)
+                return false;
+            if (Humidity <= 5)
+                return false;
+
+            return true;
         }
     }
-
 }
