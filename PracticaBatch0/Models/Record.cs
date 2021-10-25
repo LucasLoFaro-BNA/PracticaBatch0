@@ -31,5 +31,27 @@ namespace PracticaBatch0.Models
 
             return true;
         }
+
+        public String ToString(UI.UserInterface.DisplayFormat displayFormat)
+        {
+            String output = "";
+            if (displayFormat == UI.UserInterface.DisplayFormat.ShortFormat)
+            {
+                output += "\n\t\tFecha/Hora registro: " + Date.ToString() + "\n\t\t";
+            }
+            else
+            {
+                output += "\n\t\tFecha del registro: " + Date.ToString("yyyy/MM/dd") + "\n\t\t" +
+                                @"Hora del registro: " + Date.Hour.ToString() + " Hs " +
+                                                         Date.Minute.ToString() + " Min " +
+                                                         Date.Second.ToString() + " Seg" + "\n\t\t";
+            }
+            output += @"Temperatura: " + Temperature.ToString().Replace(".", ",") + "°" + "\n\t\t" +
+                      @"Humedad: " + Humidity.ToString().Replace(".", ",") + "%" + "\n\t\t" +
+                      @"Codigo: “" + SensorID + "“" + "\n\t\t" +
+                      @"Activo: " + ((SensorStatus) ? "SI" : "NO");
+
+            return output;
+        }
     }
 }
