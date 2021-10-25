@@ -6,6 +6,21 @@ namespace PracticaBatch0.UI
     public abstract class UserInterface
     {
         const int INPUT_LENGTH = 25;
+        public enum DisplayFormat { ShortFormat, LongFormat }
+
+        internal static DisplayFormat ProccessRuntimeArguments(string[] args)
+        {
+            if (args.Length != 1)
+                throw new ArgumentException("Must enter Display Format argument. (ShortFormat or LongFormat)");
+
+            if (args[0].ToLower().Equals(UserInterface.DisplayFormat.ShortFormat.ToString().ToLower()))
+                return DisplayFormat.ShortFormat;
+            else if (args[0].ToLower().Equals(UserInterface.DisplayFormat.LongFormat.ToString().ToLower()))
+                return DisplayFormat.LongFormat;
+            else
+                throw new ArgumentException("Check execution arguments.");
+        }
+
         internal static Record ProcessInput()
         {
             Console.WriteLine("Enter the record:");
@@ -44,18 +59,24 @@ namespace PracticaBatch0.UI
             }
         }
 
-        internal static bool PrintOutput(Record record)
+        internal static bool PrintOutput(Record record, DisplayFormat displayFormat)
         {
-
-            String output = @"
-                Fecha del registro: " + record.Date.ToString("yyyy/MM/dd") + "\n\t\t" +
-                @"Hora del registro: " + record.Date.Hour.ToString() + " Hs " +
-                                         record.Date.Minute.ToString() + " Min " +
-                                         record.Date.Second.ToString() + " Seg" + "\n\t\t" +
-                @"Temperatura: " + record.Temperature.ToString().Replace(".", ",") + "°" + "\n\t\t" +
-                @"Humedad: " + record.Humidity.ToString().Replace(".", ",") + "%" + "\n\t\t" +
-                @"Codigo: “" + record.SensorID + "“" + "\n\t\t" +
-                @"Activo: " + ((record.SensorStatus) ? "SI" : "NO");
+            String output = "";
+            if (displayFormat == UserInterface.DisplayFormat.ShortFormat)
+            {
+                output += "\t\tFecha/Hora registro: " + record.Date.ToString() + "\n\t\t";
+            }
+            else
+            {
+                output += "\t\tFecha del registro: " + record.Date.ToString("yyyy/MM/dd") + "\n\t\t" +
+                              @"Hora del registro: " + record.Date.Hour.ToString() + " Hs " +
+                                                       record.Date.Minute.ToString() + " Min " +
+                                                       record.Date.Second.ToString() + " Seg" + "\n\t\t";
+            }
+            output += @"Temperatura: " + record.Temperature.ToString().Replace(".", ",") + "°" + "\n\t\t" +
+                      @"Humedad: " + record.Humidity.ToString().Replace(".", ",") + "%" + "\n\t\t" +
+                      @"Codigo: “" + record.SensorID + "“" + "\n\t\t" +
+                      @"Activo: " + ((record.SensorStatus) ? "SI" : "NO");
 
             Console.WriteLine(output);
             Console.ReadKey();
