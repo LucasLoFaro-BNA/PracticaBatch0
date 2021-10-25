@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PracticaBatch0.Models
 {
@@ -52,6 +53,25 @@ namespace PracticaBatch0.Models
                       @"Activo: " + ((SensorStatus) ? "SI" : "NO");
 
             return output;
+        }
+
+        public List<Record> OrderByBubble (List<Record> records)
+        {
+            Record temp;
+            for (int i = 0; i <= records.Count - 2; i++)
+            {
+                for (int j = 0; j <= records.Count - 2; j++)
+                {
+                    if (records[j].Date > records[j + 1].Date)
+                    {
+                        temp = records[j + 1];
+                        records[j + 1] = records[j];
+                        records[j] = temp;
+                    }
+                }
+            }
+
+            return records;
         }
     }
 }
