@@ -1,5 +1,6 @@
 ﻿using PracticaBatch0.Models;
 using System;
+using System.Collections.Generic;
 
 namespace PracticaBatch0.UI
 {
@@ -21,18 +22,31 @@ namespace PracticaBatch0.UI
                 throw new ArgumentException("Check execution arguments.");
         }
 
-        internal static Record ProcessInput()
+        internal static List<Record> ProcessInput()
         {
-            Console.WriteLine("Enter the record:");
-            return ParseInput(Console.ReadLine());
+            List<Record> Records = new List<Record>();
+            String inputErrors = "";
+            String input;
+
+            Console.WriteLine("Enter the list of records:");
+            do
+            {
+                input = Console.ReadLine();
+                if (input.Length == INPUT_LENGTH)
+                    Records.Add(ParseInput(input));
+                else
+                    inputErrors += input + "\n";
+            } while (input.Length != 0);
+
+            if (inputErrors.Length > 0)
+                Console.WriteLine("The following records were not processed due to format errors: \n" + inputErrors);
+
+            return Records;
         }
 
         private static Record ParseInput(string input)
         {
             Console.WriteLine("\n\tProcessing record: " + input);
-            if (input.Length != INPUT_LENGTH)
-                throw new ApplicationException("Invalid input. Must be 25 characters");
-
             try
             {
                 DateTime Date = new DateTime(
@@ -59,26 +73,13 @@ namespace PracticaBatch0.UI
             }
         }
 
-        internal static bool PrintOutput(Record record, DisplayFormat displayFormat)
+        internal static bool PrintOutput(List<Record> records, DisplayFormat displayFormat)
         {
-            String output = "";
-            if (displayFormat == UserInterface.DisplayFormat.ShortFormat)
-            {
-                output += "\t\tFecha/Hora registro: " + record.Date.ToString() + "\n\t\t";
-            }
-            else
-            {
-                output += "\t\tFecha del registro: " + record.Date.ToString("yyyy/MM/dd") + "\n\t\t" +
-                              @"Hora del registro: " + record.Date.Hour.ToString() + " Hs " +
-                                                       record.Date.Minute.ToString() + " Min " +
-                                                       record.Date.Second.ToString() + " Seg" + "\n\t\t";
-            }
-            output += @"Temperatura: " + record.Temperature.ToString().Replace(".", ",") + "°" + "\n\t\t" +
-                      @"Humedad: " + record.Humidity.ToString().Replace(".", ",") + "%" + "\n\t\t" +
-                      @"Codigo: “" + record.SensorID + "“" + "\n\t\t" +
-                      @"Activo: " + ((record.SensorStatus) ? "SI" : "NO");
+            Console.WriteLine("Records proccessed OK. \n\n");
 
-            Console.WriteLine(output);
+            foreach (var record in records)
+                Console.WriteLine(record.ToString(displayFormat));
+
             Console.ReadKey();
             return true;
         }
