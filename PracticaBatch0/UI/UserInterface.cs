@@ -78,7 +78,7 @@ namespace PracticaBatch0.UI
         {
             Console.WriteLine("Records proccessed OK. \n\n");
 
-            foreach (var record in Sorting.OrderByDelegate(records))
+            foreach (var record in Sorting.SortDescending(records))
                 Console.WriteLine(record.ToString(displayFormat));
 
             Console.ReadKey();

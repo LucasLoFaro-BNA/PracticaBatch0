@@ -9,7 +9,24 @@ namespace PracticaBatch0.Utils
 {
     public static class Sorting
     {
-        public static List<Record> OrderByBubble(List<Record> records)
+        public enum SortingType { Bublesort, LinQ, Delegate }
+        public static List<Record> SortDescending(List<Record> records)
+        {
+            SortingType algoritm = SortingType.Bublesort;
+
+            switch (algoritm){
+                case SortingType.Bublesort:
+                        return OrderByBubble(records);
+                case SortingType.LinQ:
+                        return OrderByLinQ(records);
+                case SortingType.Delegate:
+                        return OrderByDelegate(records);
+                default:
+                        return OrderByDelegate(records);
+            }
+        }
+
+        private static List<Record> OrderByBubble(List<Record> records)
         {
             Record temp;
             for (int i = 0; i <= records.Count - 2; i++)
@@ -28,12 +45,12 @@ namespace PracticaBatch0.Utils
             return records;
         }
 
-        public static List<Record> OrderByLinQ(List<Record> records)
+        private static List<Record> OrderByLinQ(List<Record> records)
         {
             return records.OrderByDescending(x => x.Date).ToList();
         }
 
-        public static List<Record> OrderByDelegate(List<Record> records)
+        private static List<Record> OrderByDelegate(List<Record> records)
         {
             records.Sort(
                 delegate (Record a, Record b) 
