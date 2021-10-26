@@ -2,6 +2,7 @@
 using PracticaBatch0.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PracticaBatch0.UI
 {
@@ -10,35 +11,41 @@ namespace PracticaBatch0.UI
         const int INPUT_LENGTH = 25;
         public enum DisplayFormat { ShortFormat, LongFormat }
 
-        internal static DisplayFormat ProccessRuntimeArguments(string[] args)
+        internal static (String,DisplayFormat) ProccessRuntimeArguments(string[] args)
         {
-            if (args.Length != 1)
-                throw new ArgumentException("Must enter Display Format argument. (ShortFormat or LongFormat)");
+            if (args.Length < 1 || args.Length > 2)
+                throw new ArgumentException("Invalid Arguments. Example: c:/temp/inputfile ShortFormat");
 
-            if (args[0].ToLower().Equals(UserInterface.DisplayFormat.ShortFormat.ToString().ToLower()))
-                return DisplayFormat.ShortFormat;
-            else if (args[0].ToLower().Equals(UserInterface.DisplayFormat.LongFormat.ToString().ToLower()))
-                return DisplayFormat.LongFormat;
-            else
-                throw new ArgumentException("Check execution arguments.");
+            if (!File.Exists(args[0]))
+                throw new FileNotFoundException("Check input file.");
+
+            if (args.Length == 1)
+                return (args[0], DisplayFormat.LongFormat);
+
+            if (args.Length == 2)
+            {
+                if (args[1].ToLower().Equals(UserInterface.DisplayFormat.ShortFormat.ToString().ToLower()))
+                    return (args[0], DisplayFormat.ShortFormat);
+                else if (args[1].ToLower().Equals(UserInterface.DisplayFormat.LongFormat.ToString().ToLower()))
+                    return (args[0], DisplayFormat.LongFormat);
+                else
+                    throw new ArgumentException("Check DisplayFormat argument.");
+            }
+            return (args[0], DisplayFormat.LongFormat);
         }
 
-        internal static List<Record> ProcessInput()
+        internal static List<Record> ProcessInput(string inputFilePath)
         {
             List<Record> Records = new List<Record>();
             String inputErrors = "";
-            String input;
 
-            Console.WriteLine("Enter the list of records:");
-            do
+            foreach (String line in File.ReadAllLines(inputFilePath))
             {
-                input = Console.ReadLine();
-                if (input.Length == INPUT_LENGTH)
-                    Records.Add(ParseInput(input));
+                if (line.Length == INPUT_LENGTH)
+                    Records.Add(ParseInput(line));
                 else
-                    inputErrors += input + "\n";
-            } while (input.Length != 0);
-
+                    inputErrors += line + "\n";
+            }
             if (inputErrors.Length > 0)
                 Console.WriteLine("The following records were not processed due to format errors: \n" + inputErrors);
 

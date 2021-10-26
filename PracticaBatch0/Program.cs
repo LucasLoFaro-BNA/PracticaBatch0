@@ -11,8 +11,8 @@ namespace PracticaBatch0
     {
         static void Main(string[] args)
         {
-            UserInterface.DisplayFormat DisplayFormat = UserInterface.ProccessRuntimeArguments(args);
-            UserInterface.PrintOutput(UserInterface.ProcessInput(), DisplayFormat);
+            (String inputFilePath, UserInterface.DisplayFormat DisplayFormat) = UserInterface.ProccessRuntimeArguments(args);
+            UserInterface.PrintOutput(UserInterface.ProcessInput(inputFilePath), DisplayFormat);
         }
     }
 }
