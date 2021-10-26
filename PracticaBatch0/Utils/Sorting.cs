@@ -32,5 +32,17 @@ namespace PracticaBatch0.Utils
         {
             return records.OrderByDescending(x => x.Date).ToList();
         }
+
+        public static List<Record> OrderByDelegate(List<Record> records)
+        {
+            records.Sort(
+                delegate (Record a, Record b) 
+                {
+                    return b.Date.CompareTo(a.Date); 
+                });
+            return records;
+        }
+
+
     }
 }
