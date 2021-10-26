@@ -22,17 +22,5 @@ namespace PracticaBatch0.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("LinQ")]
-        public string SortingAlgoritm {
-            get {
-                return ((string)(this["SortingAlgoritm"]));
-            }
-            set {
-                this["SortingAlgoritm"] = value;
-            }
-        }
     }
 }
