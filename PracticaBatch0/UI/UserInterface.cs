@@ -1,4 +1,5 @@
 ﻿using PracticaBatch0.Models;
+using PracticaBatch0.Utils;
 using System;
 using System.Collections.Generic;
 
@@ -77,7 +78,7 @@ namespace PracticaBatch0.UI
         {
             Console.WriteLine("Records proccessed OK. \n\n");
 
-            foreach (var record in records)
+            foreach (var record in Sorting.OrderByLinQ(records))
                 Console.WriteLine(record.ToString(displayFormat));
 
             Console.ReadKey();
