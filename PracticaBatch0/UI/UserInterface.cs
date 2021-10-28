@@ -1,8 +1,6 @@
 ﻿using PracticaBatch0.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 
 namespace PracticaBatch0.UI
 {
