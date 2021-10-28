@@ -2,6 +2,7 @@
 using PracticaBatch0.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace PracticaBatch0.UI
 {
@@ -50,20 +51,10 @@ namespace PracticaBatch0.UI
             Console.WriteLine("\n\tProcessing record: " + input);
             try
             {
-                DateTime Date = new DateTime(
-                                        Convert.ToInt32(input.Substring(0, 4)),                         //YYYY
-                                        Convert.ToInt32(input.Substring(4, 2)),                         //MM
-                                        Convert.ToInt32(input.Substring(6, 2)),                         //DD
-                                        Convert.ToInt32(input.Substring(8, 2)),                         //HH
-                                        Convert.ToInt32(input.Substring(10, 2)),                        //mm
-                                        Convert.ToInt32(input.Substring(12, 2)));                       //SS
-
+                DateTime Date = DateTime.ParseExact(input.Substring(0, 14), "yyyyMMddHHmmss", new CultureInfo("es-AR"));
                 Double Temperature = Convert.ToInt32(input.Substring(14, 3)) / 10;
-
                 Double Humidity = Convert.ToDouble(input.Substring(17, 3)) / 10;
-
                 String SensorID = input.Substring(20, 4);
-
                 Boolean SensorStatus = Convert.ToBoolean(Convert.ToInt32(input.Substring(24, 1)));
 
                 return new Record(Date, Temperature, Humidity, SensorID, SensorStatus);
